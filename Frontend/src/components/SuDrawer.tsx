@@ -73,9 +73,7 @@ const SuDrawer = () => {
               <InboxIcon />
             </ListItemIcon>
             <ListItemText>Week</ListItemText>{" "}
-            <ListItemSecondaryAction
-              children={<Link to={"/"}></Link>}
-            ></ListItemSecondaryAction>
+           
           </ListItemButton>
         </ListItem>
         <ListItem disablePadding key={"2"}>

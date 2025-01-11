@@ -3,7 +3,6 @@ import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import MenuIcon from "@mui/icons-material/Menu";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import { useState } from "react";
-import "../styles/Header.css";
 
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
