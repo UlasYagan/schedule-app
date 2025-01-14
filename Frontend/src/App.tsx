@@ -4,7 +4,6 @@ import {
   createTheme,
   CssBaseline,
   Grid,
-  Paper,
   ThemeProvider,
   Toolbar,
 } from "@mui/material";

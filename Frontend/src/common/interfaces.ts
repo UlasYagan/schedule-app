@@ -11,12 +11,19 @@ export interface IConfirmDialog {
     subTitle: string
 };
 
-export interface IEmployee{
+export interface ITodos{
+    todoId?: number
+    todoName?: string
+    days?: number
+    timeless?: number
+    startDate?: string
+    endDate?: string   
+    isActive?: number
+}
+
+export interface ITodoTasks{
     id?: number
-    fullName?: string
-    email?: string
-    mobile?: string
-    city?: string   
-    gender?: string   
-    departmentId?: string 
+    todoName?: string
+    todoDate?: string   
+    isCompleted: number
 }
