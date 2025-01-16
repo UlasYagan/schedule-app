@@ -1,13 +1,13 @@
-import axios, { AxiosHeaders } from "axios";
+import axios from "axios";
 
 //Axios Globals
 // axios.defaults.headers.common["X-Auth-Token"] =
 //     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
 
-const headers = new AxiosHeaders({
-    'Content-Type': 'application/json',
-    //Authorization: "sometoken"
-});
+// const headers = new AxiosHeaders({
+//     'Content-Type': 'application/json',
+//     //Authorization: "sometoken"
+// });
 
 //creating an instance axios
 const instance = axios.create({
@@ -41,10 +41,10 @@ axios.interceptors.response.use(
         return Promise.reject(err);
     });
 
-export const getById = async <T>(id: number): Promise<T> => {
+export const getById = async <T>(url: string, id: number): Promise<T> => {
     return new Promise(async (resolve, reject) => {
         try {
-            const result = await instance.get(`?id=${id}`);
+            const result = await instance.get(`${url}?id=${id}`);
             return resolve(result.data);
         } catch (err) {
             errorHandle(err);

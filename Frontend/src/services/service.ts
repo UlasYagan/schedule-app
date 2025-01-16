@@ -1,32 +1,44 @@
 import { dtoUser } from "../common/dto";
 import { ITodos, ITodoTasks } from "../common/interfaces";
-import {
-  add,
-  edit,
-  get,
-  getById,
-  remove,
-  removeAll
-} from "./api";
-
+import { add, edit, get, getById, remove, removeAll } from "./api";
 
 //#region todotasklist
 
 /**
  * Get todo task detail
- * @param id 
+ * @param id
  * @returns ITodoTasks
  */
 export const getTodoTaskById = async (id: number): Promise<ITodoTasks> => {
   return new Promise(async (resolve, reject) => {
     try {
-      const result: ITodoTasks = await getById<ITodoTasks>(id);
+      const url = `/todotaskbyid`;
+      const result: ITodoTasks = await getById<ITodoTasks>(url, id);
       return resolve(result);
     } catch (err) {
       return reject(err);
     }
   });
-}
+};
+
+/**
+ * Get Todo Tasks with params
+ * @returns ITodoTasks[]
+ */
+export const getTodoTasksWithParams = async (
+  todoName: string,
+  todoDate: string
+): Promise<ITodoTasks[]> => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const url = `/todotasklistwithparams?todoName=${todoName}&todoDate=${todoDate}`;
+      const result = await get<ITodoTasks[]>(url);
+      return resolve(result);
+    } catch (err) {
+      return reject(err);
+    }
+  });
+};
 
 /**
  * Get all Todos
@@ -35,13 +47,13 @@ export const getTodoTaskById = async (id: number): Promise<ITodoTasks> => {
 export const getTodoTasks = async (): Promise<ITodoTasks[]> => {
   return new Promise(async (resolve, reject) => {
     try {
-      const result = await get<ITodoTasks[]>('/todotasklist');
+      const result = await get<ITodoTasks[]>("/todotasklist");
       return resolve(result);
     } catch (err) {
       return reject(err);
     }
   });
-}
+};
 
 /**
  * Add new todo task
@@ -51,34 +63,40 @@ export const getTodoTasks = async (): Promise<ITodoTasks[]> => {
 export const addTodoTask = async (entity: ITodoTasks): Promise<ITodoTasks> => {
   return new Promise(async (resolve, reject) => {
     try {
-      const result: ITodoTasks = await add<ITodoTasks>('/todotasklist', entity);
+      const result: ITodoTasks = await add<ITodoTasks>("/todotasklist", entity);
       return resolve(result);
     } catch (err) {
       return reject(err);
     }
   });
-}
+};
 
 /**
  * Edit todo task
- * @param id 
- * @param entity 
+ * @param id
+ * @param entity
  * @returns ITodoTasks
  */
-export const editTodoTask = async (id: number, entity: ITodoTasks): Promise<ITodoTasks> => {
+export const editTodoTask = async (
+  id: number,
+  entity: ITodoTasks
+): Promise<ITodoTasks> => {
   return new Promise(async (resolve, reject) => {
     try {
-      const result: ITodoTasks = await edit<ITodoTasks>(`/todotasklist/${id}`, entity);
+      const result: ITodoTasks = await edit<ITodoTasks>(
+        `/todotasklist/${id}`,
+        entity
+      );
       return resolve(result);
     } catch (err) {
       return reject(err);
     }
   });
-}
+};
 
 /**
  * Delete todo task
- * @param id 
+ * @param id
  * @returns ITodoTasks
  */
 export const removeTodoTaskById = async (id: number): Promise<ITodoTasks> => {
@@ -90,7 +108,7 @@ export const removeTodoTaskById = async (id: number): Promise<ITodoTasks> => {
       return reject(err);
     }
   });
-}
+};
 
 //#endregion todotasklist
 
@@ -98,19 +116,19 @@ export const removeTodoTaskById = async (id: number): Promise<ITodoTasks> => {
 
 /**
  * Get todo detail
- * @param id 
+ * @param id
  * @returns ITodos
  */
 export const getTodoById = async (id: number): Promise<ITodos> => {
   return new Promise(async (resolve, reject) => {
     try {
-      const result: ITodos = await getById<ITodos>(id);
+      const result: ITodos = await getById<ITodos>("/todolistbyid", id);
       return resolve(result);
     } catch (err) {
       return reject(err);
     }
   });
-}
+};
 
 /**
  * Get all Todos
@@ -119,13 +137,13 @@ export const getTodoById = async (id: number): Promise<ITodos> => {
 export const getTodos = async (): Promise<ITodos[]> => {
   return new Promise(async (resolve, reject) => {
     try {
-      const result = await get<ITodos[]>('/todolist');
+      const result = await get<ITodos[]>("/todolist");
       return resolve(result);
     } catch (err) {
       return reject(err);
     }
   });
-}
+};
 
 /**
  * Add new todo
@@ -135,18 +153,18 @@ export const getTodos = async (): Promise<ITodos[]> => {
 export const addTodo = async (entity: ITodos): Promise<ITodos> => {
   return new Promise(async (resolve, reject) => {
     try {
-      const result: ITodos = await add<ITodos>('/todolist', entity);
+      const result: ITodos = await add<ITodos>("/todolist", entity);
       return resolve(result);
     } catch (err) {
       return reject(err);
     }
   });
-}
+};
 
 /**
  * Edit todo
- * @param id 
- * @param entity 
+ * @param id
+ * @param entity
  * @returns ITodos
  */
 export const editTodo = async (id: number, entity: ITodos): Promise<ITodos> => {
@@ -158,11 +176,11 @@ export const editTodo = async (id: number, entity: ITodos): Promise<ITodos> => {
       return reject(err);
     }
   });
-}
+};
 
 /**
  * Delete todo
- * @param id 
+ * @param id
  * @returns ITodos
  */
 export const removeTodoById = async (id: number): Promise<ITodos> => {
@@ -174,7 +192,7 @@ export const removeTodoById = async (id: number): Promise<ITodos> => {
       return reject(err);
     }
   });
-}
+};
 
 /**
  * Delete todo
@@ -189,27 +207,27 @@ export const removeTodos = async (): Promise<ITodos> => {
       return reject(err);
     }
   });
-}
+};
 
 //#endregion todolist
 
-//#region user services 
+//#region user services
 
 /**
  * Get user detail
- * @param id 
+ * @param id
  * @returns dtoUser
  */
-export const getUser = async (id: number): Promise<dtoUser> => {
+export const getUserById = async (id: number): Promise<dtoUser> => {
   return new Promise(async (resolve, reject) => {
     try {
-      const result: dtoUser = await getById<dtoUser>(id);
+      const result: dtoUser = await getById<dtoUser>("/users", id);
       return resolve(result);
     } catch (err) {
       return reject(err);
     }
   });
-}
+};
 
 /**
  * Get all users
@@ -218,13 +236,13 @@ export const getUser = async (id: number): Promise<dtoUser> => {
 export const getUsers = async (): Promise<dtoUser[]> => {
   return new Promise(async (resolve, reject) => {
     try {
-      const result: dtoUser[] = await get<dtoUser[]>('/users');
+      const result: dtoUser[] = await get<dtoUser[]>("/users");
       return resolve(result);
     } catch (err) {
       return reject(err);
     }
   });
-}
+};
 
 /**
  * Add new user
@@ -234,21 +252,24 @@ export const getUsers = async (): Promise<dtoUser[]> => {
 export const addUser = async (entity: dtoUser): Promise<dtoUser> => {
   return new Promise(async (resolve, reject) => {
     try {
-      const result: dtoUser = await add<dtoUser>('/users', entity);
+      const result: dtoUser = await add<dtoUser>("/users", entity);
       return resolve(result);
     } catch (err) {
       return reject(err);
     }
   });
-}
+};
 
 /**
  * Edit User
- * @param id 
- * @param entity 
+ * @param id
+ * @param entity
  * @returns dtoUser
  */
-export const editUser = async (id: number, entity: dtoUser): Promise<dtoUser> => {
+export const editUser = async (
+  id: number,
+  entity: dtoUser
+): Promise<dtoUser> => {
   return new Promise(async (resolve, reject) => {
     try {
       const result: dtoUser = await edit<dtoUser>(`/users/${id}`, entity);
@@ -257,22 +278,22 @@ export const editUser = async (id: number, entity: dtoUser): Promise<dtoUser> =>
       return reject(err);
     }
   });
-}
+};
 
 /**
  * Delete User
- * @param id 
+ * @param id
  * @returns dtoUser
  */
 export const removeUser = async (id: number): Promise<dtoUser> => {
   return new Promise(async (resolve, reject) => {
     try {
-      const result: dtoUser = await remove<dtoUser>('/users',id);
+      const result: dtoUser = await remove<dtoUser>("/users", id);
       return resolve(result);
     } catch (err) {
       return reject(err);
     }
   });
-}
+};
 
 //#endregion user services

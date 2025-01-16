@@ -2,7 +2,7 @@ import { Checkbox } from "@mui/material";
 import React, { forwardRef, useState } from "react";
 import { ITodoTasks } from "../common/interfaces";
 import { isNil } from "../common/utils";
-import { addTodoTask } from "../services/service";
+import { addTodoTask, getTodoTasksWithParams } from "../services/service";
 
 export interface ISuCheckBoxProps {
   id?: number;
@@ -35,13 +35,13 @@ const SuCheckBoxComponent: React.ForwardRefRenderFunction<
 
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked && !isNil(state.todoName) && !isNil(state.todoDate)) {
-      await addTodoTask(state);
-
-      // fetch("http://localhost:3000/api/todolist", {
-      //   method: "POST",
-      //   body: JSON.stringify(state),
-      //   headers: { "Content-Type": "application/json" },
-      // });
+      const taskList = await getTodoTasksWithParams(
+        state.todoName!,
+        state.todoDate!
+      );
+      if (taskList.length < 1) {
+        await addTodoTask(state);
+      }
     }
   };
 

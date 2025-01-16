@@ -1,6 +1,5 @@
 import {
   Box,
-  Checkbox,
   Divider,
   Grid,
   IconButton,
@@ -11,12 +10,17 @@ import {
 } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
-import { eachDayOfInterval, endOfWeek, format, startOfWeek } from "date-fns";
+import {
+  addDays,
+  eachDayOfInterval,
+  endOfWeek,
+  format,
+  startOfWeek,
+} from "date-fns";
 import { useEffect, useState } from "react";
 import { ITodos, ITodoTasks } from "../common/interfaces";
 import { SuCheckBox } from "./SuCheckBox";
 import { getTodos, getTodoTasks } from "../services/service";
-import { isNil } from "../common/utils";
 
 const TodoWeek = () => {
   const currentDate = new Date();
@@ -48,11 +52,21 @@ const TodoWeek = () => {
     };
   }, []);
 
+  function checkTask(check: boolean) {
+    return check ? (
+      <CheckIcon color="success" sx={{ fontSize: 17 }}></CheckIcon>
+    ) : (
+      <ClearIcon color="error" sx={{ fontSize: 15 }}></ClearIcon>
+    );
+  }
+
   return (
     <>
       {daysInWeek.map((day, index) => {
         const dateKey = format(day, "dd.MM.yyyy");
         const today = format(currentDate, "dd.MM.yyyy");
+        const previousDay = format(addDays(currentDate, -1), "dd.MM.yyyy");
+
         return (
           <Grid item xs={12} md={4} lg={3} key={index}>
             <Paper
@@ -74,47 +88,47 @@ const TodoWeek = () => {
                 </b>
               </Box>
               <List>
-                {!isNil(todoListResult) &&
-                  todoListResult.map((item, index) => {
-                    return (
-                      <>
-                        <ListItem
-                          key={index}
-                          secondaryAction={
-                            <>
-                              {dateKey === today ? (
-                                <IconButton edge="end" color="success">
-                                  <SuCheckBox
-                                    key={index}
-                                    todoName={item.todoName}
-                                    todoDate={dateKey}
-                                    isCompleted={1}
-                                  />
-                                </IconButton>
-                              ) : !isNil(todoTasksResult) &&
-                                todoTasksResult.filter((c) => {
-                                  return (
-                                    c.todoName === item.todoName &&
-                                    c.todoDate === dateKey &&
-                                    c.isCompleted === 1
-                                  );
-                                }).length > 0 ? (
-                                <CheckIcon color="success"></CheckIcon>
-                              ) : (
-                                <ClearIcon color="error"></ClearIcon>
-                              )}
-                            </>
-                          }
-                          sx={{
-                            p: 1,
-                          }}
-                        >
-                          <ListItemText>{item.todoName}</ListItemText>
-                        </ListItem>
-                        <Divider />
-                      </>
-                    );
-                  })}
+                {todoListResult.map((item, index) => {
+                  const check =
+                    todoTasksResult.filter((c) => {
+                      return (
+                        c.todoName === item.todoName &&
+                        c.todoDate === dateKey &&
+                        c.isCompleted === 1
+                      );
+                    }).length > 0;
+
+                  return (
+                    <>
+                      <ListItem
+                        key={index}
+                        secondaryAction={
+                          <>
+                            {(dateKey === today || dateKey === previousDay) &&
+                            !check ? (
+                              <IconButton edge="end" color="success">
+                                <SuCheckBox
+                                  key={index}
+                                  todoName={item.todoName}
+                                  todoDate={dateKey}
+                                  isCompleted={1}
+                                />
+                              </IconButton>
+                            ) : (
+                              checkTask(check)
+                            )}
+                          </>
+                        }
+                        sx={{
+                          p: 1,
+                        }}
+                      >
+                        <ListItemText>{item.todoName}</ListItemText>
+                      </ListItem>
+                      <Divider />
+                    </>
+                  );
+                })}
               </List>
             </Paper>
           </Grid>
