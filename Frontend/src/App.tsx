@@ -10,7 +10,6 @@ import {
 import Header from "./components/Header";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import TodoWeek from "./components/TodoWeek";
-import ErrorPage from "./backup/Routes/ErrorPage";
 import TodoList from "./components/TodoList";
 import TodoMonth from "./components/TodoMonth";
 import SuDrawer from "./components/SuDrawer";
@@ -20,7 +19,6 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <TodoWeek />,
-    errorElement: <ErrorPage />,
   },
   {
     path: "/todolist",
