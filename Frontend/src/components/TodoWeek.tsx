@@ -31,7 +31,9 @@ const TodoWeek = () => {
     start: firstDayOfWeek,
     end: lastDayOfWeek,
   });
-
+  const today = format(currentDate, "dd.MM.yyyy");
+  const previousDay = format(addDays(currentDate, -1), "dd.MM.yyyy");
+  
   const [todoListResult, setTodoListResult] = useState<ITodos[]>([]);
   const [todoTasksResult, setTodoTasksResult] = useState<ITodoTasks[]>([]);
 
@@ -64,9 +66,6 @@ const TodoWeek = () => {
     <>
       {daysInWeek.map((day, index) => {
         const dateKey = format(day, "dd.MM.yyyy");
-        const today = format(currentDate, "dd.MM.yyyy");
-        const previousDay = format(addDays(currentDate, -1), "dd.MM.yyyy");
-
         return (
           <Grid item xs={12} md={4} lg={3} key={index}>
             <Paper

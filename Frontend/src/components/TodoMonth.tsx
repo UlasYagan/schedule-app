@@ -7,14 +7,7 @@ import {
   ListItemText,
   Paper,
 } from "@mui/material";
-import CheckIcon from "@mui/icons-material/Check";
-import ClearIcon from "@mui/icons-material/Clear";
-import {
-  eachDayOfInterval,
-  endOfMonth,
-  format,
-  startOfMonth,
-} from "date-fns";
+import { eachDayOfInterval, endOfMonth, format, startOfMonth } from "date-fns";
 import { useEffect, useState } from "react";
 import { ITodos, ITodoTasks } from "../common/interfaces";
 import { getTodos, getTodoTasks } from "../services/service";
@@ -89,23 +82,10 @@ const TodoMonth = () => {
                     <>
                       <ListItem
                         key={index}
-                        secondaryAction={
-                          <>
-                            {check ? (
-                              <CheckIcon
-                                color="success"
-                                sx={{ fontSize: 17 }}
-                              ></CheckIcon>
-                            ) : (
-                              <ClearIcon
-                                color="error"
-                                sx={{ fontSize: 15 }}
-                              ></ClearIcon>
-                            )}
-                          </>
-                        }
                         sx={{
                           p: 1,
+                          color: "white",
+                          backgroundColor: check ? "#4fc703" : "#853565",
                         }}
                       >
                         <ListItemText>{item.todoName}</ListItemText>

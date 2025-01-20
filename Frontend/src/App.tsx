@@ -18,7 +18,7 @@ const defaultTheme = createTheme();
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <TodoWeek />,
+    element: <TodoList />,
   },
   {
     path: "/todolist",

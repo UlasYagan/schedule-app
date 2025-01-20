@@ -316,14 +316,14 @@ app.delete("/api/todolist", (req, res) => {
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
   const sql = `DELETE FROM TodoList WHERE todoId=?`;
-  console.log(req.query.todoId);
+  console.log(req.query.id);
 
   try {
-    db.run(sql, [req.query.todoId], (err) => {
+    db.run(sql, [req.query.id], (err) => {
       if (err) throw err;
 
       res.status(200);
-      res.send(`{"message":"Product ${req.query.id} was removed"}`);
+      res.send(`{"message":"todolist ${req.query.id} was removed"}`);
     });
   } catch (error) {
     console.log(err);

@@ -92,7 +92,7 @@ export const edit = async <T>(url: string, data: T): Promise<T> => {
 export const remove = async <T>(url: string, id: number): Promise<T> => {
     return new Promise(async (resolve, reject) => {
         try {
-            const result = await instance.delete(`/${url}/${id}`);
+            const result = await instance.delete(`${url}?id=${id}`);
             return resolve(result.data);
         } catch (err) {
             errorHandle(err);

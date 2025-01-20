@@ -11,78 +11,99 @@ import {
   Paper,
   TextField,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import CloseIcon from "@mui/icons-material/Close";
+import { useEffect, useRef, useState } from "react";
 import { ITodos } from "../common/interfaces";
 import { addDays, format } from "date-fns";
 import { isNil } from "../common/utils";
-import { addTodo, getTodos, removeTodos } from "../services/service";
+import { addTodo, getTodos, removeTodoById } from "../services/service";
+import { ISuNotificationHandles, SuNotification } from "./SuNotification";
 
 const TodoList = () => {
-  const [state, setState] = useState<ITodos>({
-    todoName: "",
-    days: 0,
-    timeless: 0,
-    startDate: "",
-    endDate: "",
+  const refSuNotification = useRef<ISuNotificationHandles>(null);
+
+  const [todoForm, setTodoForm] = useState<ITodos>({
     isActive: 1,
   });
 
   const [todoListResult, setTodoListResult] = useState<ITodos[]>([]);
+  const currentDate = new Date();
 
   useEffect(() => {
-    let isSubscribed = true;
-    const data = async () => {
-      const result = await getTodos();
-      setTodoListResult(result);
-    };
-    if (isSubscribed) {
-      data();
+    try {
+      let isSubscribed = true;
+      const data = async () => {
+        const result = await getTodos();
+        setTodoListResult(result);
+      };
+      if (isSubscribed) {
+        data();
+      }
+      return () => {
+        isSubscribed = false;
+      };
+    } catch (err) {
+      refSuNotification.current!.error("There is an error");
     }
-    return () => {
-      isSubscribed = false;
-    };
   }, []);
 
   const handleChange = (e: any) => {
-    if (
-      e.target.name === "days" &&
-      !isNil(e.target.value) &&
-      Number(e.target.value) > 0
-    ) {
-      const day = Number(e.target.value);
-      const currentDate = new Date();
-      const startDate = format(currentDate, "yyyy-MM-dd");
-      const endDate = format(addDays(currentDate, day), "yyyy-MM-dd");
+    try {
+      if (
+        e.target.name === "days" &&
+        !isNil(e.target.value) &&
+        Number(e.target.value) > 0
+      ) {
+        const day = Number(e.target.value);
+        const startDate = format(addDays(currentDate, -3), "yyyy-MM-dd");
+        const endDate = format(addDays(currentDate, day), "yyyy-MM-dd");
 
-      setState({
-        ...state,
-        startDate,
-        endDate,
-      });
-    } else {
-      setState({
-        ...state,
-        [e.target.name]: e.target.value,
-      });
+        setTodoForm({
+          ...todoForm,
+          startDate,
+          endDate,
+        });
+      } else {
+        const { name, value } = e.target;
+        setTodoForm({
+          ...todoForm,
+          [name]: value,
+        });
+      }
+    } catch (err) {
+      refSuNotification.current!.error("There is an error");
     }
   };
 
-  const handleSubmit = async () => {
-    if (
-      !isNil(state.todoName) &&
-      !isNil(state.startDate) &&
-      !isNil(state.endDate)
-    ) {
-      await addTodo(state);
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    try {
+      if (
+        !isNil(todoForm.todoName) &&
+        !isNil(todoForm.startDate) &&
+        !isNil(todoForm.endDate)
+      ) {
+        await addTodo(todoForm);
+        const result = await getTodos();
+        setTodoListResult(result);
+      }
+
+      refSuNotification.current!.success("Add Todo is succeed");
+    } catch (err) {
+      refSuNotification.current!.error("There is an error");
+    }
+  };
+
+  const handleDelete = async (id: number) => {
+    try {
+      await removeTodoById(id);
       const result = await getTodos();
       setTodoListResult(result);
-    }
-  };
 
-  const handleDelete = async () => {
-    await removeTodos();
-    const result = await getTodos();
-    setTodoListResult(result);
+      refSuNotification.current!.success("Remove is succeed");
+    } catch (err) {
+      refSuNotification.current!.error("There is an error");
+    }
   };
 
   return (
@@ -103,17 +124,13 @@ const TodoList = () => {
         >
           <b>{"Todo List"}</b>
         </Box>
-        <Box
-          component="form"
-          sx={{ "& > :not(style)": { m: 1, width: "30ch" } }}
-          noValidate
-          autoComplete="off"
-        >
+        <form onSubmit={handleSubmit}>
           <TextField
             name="todoName"
             id="standard-basic"
             label="task name"
             variant="standard"
+            value={todoForm.todoName}
             onChange={handleChange}
           />
           <TextField
@@ -122,6 +139,7 @@ const TodoList = () => {
             label="days"
             type="number"
             variant="standard"
+            value={todoForm.days}
             onChange={handleChange}
           />
           <TextField
@@ -139,24 +157,27 @@ const TodoList = () => {
               {"no"}
             </MenuItem>
           </TextField>
-          <Button variant="outlined" onClick={handleSubmit}>
-            save
+          <Button type="submit" variant="contained" color="primary">
+            Submit
           </Button>
-          <Button
-            sx={{ display: "none" }}
-            variant="outlined"
-            onClick={handleDelete}
-          >
-            delete
-          </Button>
-        </Box>
+        </form>
         <List>
           {todoListResult.map((item, index) => {
             return (
               <>
                 <ListItem
                   key={index}
-                  secondaryAction={<IconButton edge="end"></IconButton>}
+                  secondaryAction={
+                    <>
+                      <IconButton
+                        key="close"
+                        color="error"
+                        onClick={() => handleDelete(item.todoId!)}
+                      >
+                        <CloseIcon sx={{ fontSize: 20 }} />
+                      </IconButton>
+                    </>
+                  }
                   sx={{
                     p: 1,
                   }}
@@ -169,6 +190,7 @@ const TodoList = () => {
           })}
         </List>
       </Paper>
+      <SuNotification ref={refSuNotification} />
     </Grid>
   );
 };
