@@ -1,5 +1,5 @@
 import React, { forwardRef, useImperativeHandle, useState } from "react";
-import { Backdrop, Box, CircularProgress } from "@mui/material";
+import { Backdrop, CircularProgress } from "@mui/material";
 
 export interface ISuLoadingProps {}
 
@@ -8,15 +8,13 @@ export interface ISuLoadingHandles {
   hideLoading: () => void;
 }
 
-const SuLoadingComponent: React.ForwardRefRenderFunction<
-  ISuLoadingHandles,
-  ISuLoadingProps
-> = (props, ref) => {
+const SuLoadingComponent: React.ForwardRefRenderFunction<ISuLoadingHandles, ISuLoadingProps> = (props, ref) => {
   const [open, setOpen] = useState(false);
 
   const showLoading = () => {
     setOpen(true);
   };
+
   const hideLoading = () => {
     setOpen(false);
   };
