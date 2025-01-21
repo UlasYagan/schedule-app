@@ -14,6 +14,6 @@ export interface AnchorOrigin {
 }
 
 export interface IDialogBase {
-  title?: string;
-  subTitle?: string;
+  // title?: string;
+  // subTitle?: string;
 }
