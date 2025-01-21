@@ -53,7 +53,7 @@ export const withSuDialogBaseHOC = (Component: any) => {
             <CloseIcon />
           </IconButton>
           <DialogContent dividers>
-        <Component {...props} ref={ref} />
+            <Component {...props} ref={ref} />
           </DialogContent>
         </Dialog>
       </>

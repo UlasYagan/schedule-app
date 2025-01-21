@@ -18,9 +18,11 @@ import {
   ISuNotificationHandles,
   SuNotification,
 } from "../core/components/SuNotification";
+import { ISuLoadingHandles, SuLoading } from "../core/components/SuLoading";
 
 const TodoList = () => {
   const refSuNotification = useRef<ISuNotificationHandles>(null);
+  const refLoading = useRef<ISuLoadingHandles>(null);
 
   const [todoForm, setTodoForm] = useState<ITodos>({
     isActive: 1,
@@ -30,6 +32,8 @@ const TodoList = () => {
 
   useEffect(() => {
     try {
+      refLoading.current!.showLoading();
+
       let isSubscribed = true;
       const data = async () => {
         const result = await getTodos();
@@ -37,11 +41,14 @@ const TodoList = () => {
       };
       if (isSubscribed) {
         data();
+        refLoading.current!.hideLoading();
       }
       return () => {
         isSubscribed = false;
       };
     } catch (err) {
+      refLoading.current!.hideLoading();
+
       refSuNotification.current!.error("There is an error");
     }
   }, []);
@@ -130,6 +137,7 @@ const TodoList = () => {
         </List>
       </Paper>
       <SuNotification ref={refSuNotification} />
+      <SuLoading ref={refLoading} />
     </Grid>
   );
 };
