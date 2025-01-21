@@ -17,7 +17,7 @@ import { ITodos } from "../common/interfaces";
 import { addDays, format } from "date-fns";
 import { isNil } from "../common/utils";
 import { addTodo, getTodos, removeTodoById } from "../services/service";
-import { ISuNotificationHandles, SuNotification } from "./SuNotification";
+import { ISuNotificationHandles, SuNotification } from "../core/components/SuNotification";
 
 const TodoList = () => {
   const refSuNotification = useRef<ISuNotificationHandles>(null);
