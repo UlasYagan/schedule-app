@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Divider,
   Grid,
   IconButton,
@@ -23,7 +24,7 @@ import { ISuLoadingHandles, SuLoading } from "../core/components/SuLoading";
 const TodoList = () => {
   const refSuNotification = useRef<ISuNotificationHandles>(null);
   const refLoading = useRef<ISuLoadingHandles>(null);
-
+  
   const [todoForm, setTodoForm] = useState<ITodos>({
     isActive: 1,
   });
@@ -48,7 +49,6 @@ const TodoList = () => {
       };
     } catch (err) {
       refLoading.current!.hideLoading();
-
       refSuNotification.current!.error("There is an error");
     }
   }, []);
@@ -82,6 +82,15 @@ const TodoList = () => {
     }
   };
 
+  const addTodoForm = () => {
+    try {
+      
+
+    } catch (err) {
+      refSuNotification.current!.error("There is an error");
+    }
+  };
+
   return (
     <Grid item xs={12} md={12} lg={12}>
       <Paper
@@ -100,13 +109,23 @@ const TodoList = () => {
         >
           <b>{"Todo List"}</b>
         </Box>
-        <TextField
-          name="todoName"
-          id="standard-basic"
-          label="task name"
-          variant="standard"
-          onChange={handleChange}
-        />
+        <Grid container>
+          <Grid item xs={8} md={8} lg={8}>
+            <TextField
+              name="search"
+              id="standard-basic"
+              label="search"
+              variant="standard"
+              onChange={handleChange}
+            />
+          </Grid>
+          <Grid item xs={4} md={4} lg={4}>
+            <Button variant="contained" color="primary" onClick={addTodoForm}>
+              Add Todo
+            </Button>
+          </Grid>
+        </Grid>
+
         <List>
           {todoListResult.map((item, index) => {
             return (
