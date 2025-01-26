@@ -20,6 +20,7 @@ import {
   SuNotification,
 } from "../core/components/SuNotification";
 import { ISuLoadingHandles, SuLoading } from "../core/components/SuLoading";
+import { useSuContext } from "../context/SuContext";
 
 const TodoList = () => {
   const refSuNotification = useRef<ISuNotificationHandles>(null);
@@ -82,10 +83,13 @@ const TodoList = () => {
     }
   };
 
+ 
+
   const addTodoForm = () => {
     try {
-      
+      const tet = useSuContext();
 
+      tet.toggleTheme(3);
     } catch (err) {
       refSuNotification.current!.error("There is an error");
     }

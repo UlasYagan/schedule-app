@@ -10,10 +10,12 @@ import {
   ListItem,
   ListItemButton,
   ListItemIcon,
+  ListItemSecondaryAction,
   ListItemText,
 } from "@mui/material";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
+import { Link, NavLink } from "react-router-dom";
 
 const drawerWidth: number = 240;
 
@@ -70,8 +72,10 @@ const SuDrawer = () => {
             <ListItemIcon>
               <InboxIcon />
             </ListItemIcon>
-            <ListItemText>Week</ListItemText>{" "}
-           
+
+            <ListItemText>
+              <NavLink to={"/"} style={{textDecoration: "none"}}>Week</NavLink>
+            </ListItemText>
           </ListItemButton>
         </ListItem>
         <ListItem disablePadding key={"2"}>
@@ -79,7 +83,9 @@ const SuDrawer = () => {
             <ListItemIcon>
               <MailIcon />
             </ListItemIcon>
-            <ListItemText>Month</ListItemText>
+            <ListItemText>
+              <NavLink to={"/todomonth"} style={{textDecoration: "none"}}>Month</NavLink>
+            </ListItemText>
           </ListItemButton>
         </ListItem>
         <ListItem disablePadding key={"3"}>
@@ -87,7 +93,9 @@ const SuDrawer = () => {
             <ListItemIcon>
               <InboxIcon />
             </ListItemIcon>
-            <ListItemText>Todo List</ListItemText>
+            <ListItemText>
+              <NavLink to={"/todolist"} style={{textDecoration: "none"}}>Todo List</NavLink>
+            </ListItemText>
           </ListItemButton>
         </ListItem>
       </List>

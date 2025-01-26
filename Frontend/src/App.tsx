@@ -1,69 +1,8 @@
-import {
-  Box,
-  Container,
-  createTheme,
-  CssBaseline,
-  Grid,
-  ThemeProvider,
-  Toolbar,
-} from "@mui/material";
-import Header from "./views/Header";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import TodoWeek from "./views/TodoWeek";
-import TodoList from "./views/TodoList";
-import TodoMonth from "./views/TodoMonth";
-import SuDrawer from "./components/SuDrawer";
-import { SuProvider } from "./context/SuContext";
-
-const defaultTheme = createTheme();
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <TodoWeek />,
-  },
-  {
-    path: "/todolist",
-    element: <TodoList />,
-  },
-  {
-    path: "/todomonth",
-    element: <TodoMonth />,
-  },
-]);
+import { RouterProvider } from "react-router-dom";
+import { router } from "./router/routes";
 
 function App() {
-  return (
-    <>
-      <SuProvider>
-        <ThemeProvider theme={defaultTheme}>
-          <Box sx={{ display: "flex" }}>
-            <CssBaseline />
-            <Header />
-            <SuDrawer />
-            <Box
-              component="main"
-              sx={{
-                backgroundColor: (theme) =>
-                  theme.palette.mode === "light"
-                    ? theme.palette.grey[100]
-                    : theme.palette.grey[900],
-                flexGrow: 1,
-                height: "100vh",
-                overflow: "auto",
-              }}
-            >
-              <Toolbar />
-              <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-                <Grid container spacing={3}>
-                  <RouterProvider router={router} />
-                </Grid>
-              </Container>
-            </Box>
-          </Box>
-        </ThemeProvider>
-      </SuProvider>
-    </>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;

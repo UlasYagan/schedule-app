@@ -4,7 +4,7 @@ interface SuContextType {
   user: string;
   theme: "light" | "dark";
   setUser: (user: string) => void;
-  toggleTheme: () => void;
+  toggleTheme: (id: number) => void;
 }
 
 const SuContext = createContext<SuContextType | undefined>(undefined);
@@ -17,7 +17,8 @@ export const SuProvider: React.FC<SuProviderProps> = ({ children }) => {
   const [user, setUser] = useState("Guest");
   const [theme, setTheme] = useState<"light" | "dark">("light");
 
-  const toggleTheme = () => {
+  const toggleTheme = (id: number) => {
+    console.log(id);
     setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
   };
 
@@ -29,9 +30,13 @@ export const SuProvider: React.FC<SuProviderProps> = ({ children }) => {
 };
 
 export const useSuContext = (): SuContextType => {
-  const context = useContext(SuContext);
-  if (!context) {
-    throw new Error("useAppContext must be used within an AppProvider");
+  try {
+    const context = useContext(SuContext);
+    if (!context) {
+      throw new Error("useAppContext must be used within an AppProvider");
+    }
+    return context;
+  } catch (err) {
+    throw err;
   }
-  return context;
 };
