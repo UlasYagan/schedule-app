@@ -50,3 +50,20 @@ export const router = createBrowserRouter([
 //     ]),
 //     route("about", "routes/about.tsx"),
 //   ];
+
+// let router = createBrowserRouter([
+//   {
+//     path: "/",
+//     Component: Root,
+//     children: [
+//       {
+//         path: "shows/:showId",
+//         Component: Show,
+//         loader: ({ request, params }) =>
+//           fetch(`/api/show/${params.id}.json`, {
+//             signal: request.signal,
+//           }),
+//       },
+//     ],
+//   },
+// ]);
