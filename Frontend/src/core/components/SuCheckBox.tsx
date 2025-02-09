@@ -1,8 +1,8 @@
 import { Checkbox } from "@mui/material";
 import React, { forwardRef, useState } from "react";
-import { ITodoTasks } from "../common/interfaces";
-import { isNil } from "../common/utils";
-import { addTodoTask, getTodoTasksWithParams } from "../services/service";
+import { ITodoTasks } from "../../common/interfaces";
+import { isNil } from "../../common/utils";
+import { addTodoTask, getTodoTasksWithParams } from "../../services/service";
 
 export interface ISuCheckBoxProps {
   id?: number;

@@ -19,7 +19,7 @@ import {
 } from "date-fns";
 import { useEffect, useState } from "react";
 import { ITodos, ITodoTasks } from "../common/interfaces";
-import { SuCheckBox } from "../components/SuCheckBox";
+import { SuCheckBox } from "../core/components/SuCheckBox";
 import { getTodos, getTodoTasks } from "../services/service";
 
 const TodoWeek = () => {
