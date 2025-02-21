@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { SuProvider } from "../context/SuContext";
 import Header from "./Header";
-import SuDrawer from "../core/components/SuDrawer";
+import SuDrawer from "../components/SuDrawer";
 import { Outlet } from "react-router-dom";
 
 const defaultTheme = createTheme();

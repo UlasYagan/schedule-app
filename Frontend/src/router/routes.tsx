@@ -3,6 +3,7 @@ import TodoWeek from "../views/TodoWeek";
 import TodoList from "../views/TodoList";
 import TodoMonth from "../views/TodoMonth";
 import Home from "../views/Home";
+import Test from "../views/Test";
 
 export const router = createBrowserRouter([
     {
@@ -20,6 +21,10 @@ export const router = createBrowserRouter([
         {
           path: "/todomonth",
           element: <TodoMonth />,
+        },
+        {
+          path: "/test",
+          element: <Test />,
         },
       ],
     },

@@ -98,6 +98,16 @@ const SuDrawer = () => {
             </ListItemText>
           </ListItemButton>
         </ListItem>
+        <ListItem disablePadding key={"3"}>
+          <ListItemButton>
+            <ListItemIcon>
+              <InboxIcon />
+            </ListItemIcon>
+            <ListItemText>
+              <NavLink to={"/test"} style={{textDecoration: "none"}}>Test</NavLink>
+            </ListItemText>
+          </ListItemButton>
+        </ListItem>
       </List>
     </Drawer>
   );
